@@ -3,7 +3,7 @@ from datetime import datetime, timedelta
 import csv
 import pytz
 
-# Configuration
+# Configuration appsync-dynamodb
 TARGET_BUCKETS = ["cost-and-usage-reports-baeced90", "random-test-bucket"]
 OUTPUT_FILE = "bucket_sizes_30days.csv"
 TIMEZONE = pytz.utc
@@ -54,7 +54,7 @@ def get_bucket_size(bucket_name, cloudwatch):
 
             for dp in response['Datapoints']:
                 date = dp['Timestamp'].astimezone(TIMEZONE).strftime('%Y-%m-%d')
-                current_size = dp['Average']
+                current_size = dp['Average']/ (1024 * 1024)
                 if date in size_data:
                     size_data[date] += current_size
                 else:
